@@ -34,9 +34,13 @@ public class DiscoverCalculator : MonoBehaviour {
         CardDrawChance(neutrals, classCards, neutralTargets, classTargets);
     }
 
+	[Range(0,10)]
+	public int RoundDecimals = 1;
     void CardDrawChance(float neutrals, float classCards, float neutralTargets, float classTargets)
     {
-        text.text =  (Mathf.Round((1 - CardDrawChance_inner(neutralBonus * neutrals, classBonus * classCards, neutralBonus * neutralTargets, classBonus * classTargets, cardsDrawn)) * 1000) / 10).ToString();
+		float DrawChance = 1 - CardDrawChance_inner (neutralBonus * neutrals, classBonus * classCards, neutralBonus * neutralTargets, classBonus * classTargets, cardsDrawn);
+
+		text.text =  (Mathf.Round(DrawChance * (100 * Mathf.Pow(10,RoundDecimals))) / (1* Mathf.Pow(10,RoundDecimals))).ToString() + "%";
     }
 
     float CardDrawChance_inner(float neutrals, float classCards, float neutralTargets, float classTargets, float draws)
