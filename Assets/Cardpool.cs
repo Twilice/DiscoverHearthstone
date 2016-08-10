@@ -95,7 +95,19 @@ public class Cardpool : MonoBehaviour {
         calculator.neutralTargets = 0;
         calculator.classCards = classCards;
         calculator.classTargets = 0;
+
+		SetupCardPositions();
     }
+
+	void SetupCardPositions()
+	{
+		int width;
+		int height;
+		for (int i = 0; i < neutrals + classCards; i++)
+		{
+
+		}
+	}
 
     List<Card> CardList(Hero hero)
     {
