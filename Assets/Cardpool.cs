@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Cardpool : MonoBehaviour {
 
@@ -34,7 +35,7 @@ public class Cardpool : MonoBehaviour {
         {
             if (_calculator == null)
             {
-                _calculator = GameObject.Find("Calculator").transform.GetComponent<DiscoverCalculator>();
+                _calculator = GameObject.Find("Calculator").GetComponent<DiscoverCalculator>();
             }
             return _calculator;
         }
@@ -44,7 +45,6 @@ public class Cardpool : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
     void Start ()
     {
         Transform AllCardContainer = GameObject.Find("AllCards").transform;
@@ -79,10 +79,9 @@ public class Cardpool : MonoBehaviour {
         WarriorContainer = AllCardContainer.Find("Warrior");
         WarriorContainer.GetComponentsInChildren(true, WarriorList);
 
-        DiscoverSpells(Hero.Mage);
+		AllCardContainer.gameObject.SetActive (false);
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
 	}
@@ -96,19 +95,13 @@ public class Cardpool : MonoBehaviour {
         classCards = 0;
         foreach(Card card in PoolOfCards)
         {
-            if(card.hero == Hero.Neutral)
-            {
-                card.transform.parent = NeutralContainer;
-            }
-            else if(card.hero == Hero.Mage)
-            {
-                card.transform.parent = MageContainer;
-            }
+			card.Clear();
+			card.transform.SetParent (card.originalParent, false);
         }
         PoolOfCards.Clear();
     }
 
-    void DiscoverSpells(Hero hero)
+    public void DiscoverSpells(Hero hero)
     {
         ResetCardPoolStatus();
         foreach (Card card in CardList(hero))
@@ -137,10 +130,23 @@ public class Cardpool : MonoBehaviour {
         calculator.classCards = classCards;
         calculator.classTargets = 0;
 
+		PoolOfCards.Sort (new CardSorter());
         //sort by mana, keeping nameorder (non destructive) and neutral weighting more than class
 
 		SetupCardPositions();
     }
+	public class CardSorter : IComparer<Card>
+	{
+		public int Compare(Card x, Card y)
+		{
+			int comp = x.hero.CompareTo (y.hero);
+			if (comp == 0)
+				return (x.manaCost.CompareTo (y.manaCost));
+			else
+				return comp;
+		}
+	}
+
 
 	void SetupCardPositions()
 	{

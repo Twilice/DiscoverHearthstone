@@ -40,6 +40,9 @@ public class Card : MonoBehaviour {
     public List<Ability> abilities = new List<Ability>();
     public int manaCost = 3;
 
+	[HideInInspector]
+	public Transform originalParent;
+
     private static Transform _cardPoolContainer;
     private static Transform cardPoolContainer
     {
@@ -75,7 +78,12 @@ public class Card : MonoBehaviour {
     }
 
     private Image img;
+	void Awake()
+	{
+		originalParent = transform.parent;
+	}
 	void Start () {
+		
         img = GetComponent<Image>();
 
         if (Application.isPlaying)
@@ -98,6 +106,7 @@ public class Card : MonoBehaviour {
 
     }
 
+	[HideInInspector]
     public bool active = true;
     public void Clicked()
     {
