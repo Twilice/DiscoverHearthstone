@@ -102,7 +102,15 @@ public class Card : MonoBehaviour {
 	
 	void Update () {
         if (Application.isPlaying == false && img != null)
+        {
+            SpriteRenderer rend = GetComponentInChildren<SpriteRenderer>();
+            if (rend != null)
+            {
+                img.sprite = rend.sprite;
+                DestroyImmediate(rend.gameObject);
+            }
             transform.name = img.sprite.name;
+        }
 
     }
 
