@@ -37,10 +37,10 @@ public class Card : MonoBehaviour {
     public Hero hero = 0;
     public Type type = 0;
     public Tribe tribe = 0;
-    public List<Ability> abilities = new List<Ability>();
     public int manaCost = 3;
+    public List<Ability> abilities = new List<Ability>();
 
-	[HideInInspector]
+    [HideInInspector]
 	public Transform originalParent;
 
     private static Transform _cardPoolContainer;

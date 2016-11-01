@@ -22,7 +22,8 @@ public class DiscoverMenu : MonoBehaviour {
 
 	public void Reset()
 	{
-		//unhide discover menu
+        //unhide discover menu
+        cardpool.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 		gameObject.SetActive(true);
 	}
 
