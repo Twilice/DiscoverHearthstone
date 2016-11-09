@@ -109,8 +109,8 @@ public class Cardpool : MonoBehaviour {
 
             if (card.type == Type.Spell)
             {
-                PoolOfCards.Add(card);
                 classCards++;
+                PoolOfCards.Add(card);
                 card.transform.SetParent(this.transform, false);
             }
         }
@@ -123,7 +123,6 @@ public class Cardpool : MonoBehaviour {
                 card.transform.SetParent(this.transform, false);
             }
         }
-      
 
         calculator.neutrals = neutrals;
         calculator.neutralTargets = 0;
@@ -131,15 +130,48 @@ public class Cardpool : MonoBehaviour {
         calculator.classTargets = 0;
 
 		PoolOfCards.Sort (new CardSorter());
-        //sort by mana, keeping nameorder (non destructive) and neutral weighting more than class
 
 		SetupCardPositions();
     }
-	public class CardSorter : IComparer<Card>
+
+    public void Discover3Mana(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if (card.manaCost == 3)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if (card.manaCost == 3)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
+    //sort by mana, keeping nameorder (non destructive) and neutral weighting more than class
+    public class CardSorter : IComparer<Card>
 	{
 		public int Compare(Card x, Card y)
 		{
-			int comp = x.hero.CompareTo (y.hero);
+			int comp = y.hero.CompareTo (x.hero);
 			if (comp == 0)
 				return (x.manaCost.CompareTo (y.manaCost));
 			else

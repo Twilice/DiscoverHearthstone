@@ -9,10 +9,11 @@ public class DiscoverMenu : MonoBehaviour {
 
 	private Action<Hero> discover;
 
-    void Start()
+    // cardpool component must be initialized before DiscoverFunction is set, thus awake instead of start
+    void Awake()
     {
 		cardpool = GameObject.Find("CardPool").GetComponent<Cardpool>();
-		discover = cardpool.DiscoverSpells;
+		//discover = cardpool.DiscoverSpells;
     }
 
     void Update()
@@ -33,7 +34,13 @@ public class DiscoverMenu : MonoBehaviour {
 		//hide discover menu
 	}
 
-	public void ChooseDruid()
+    public void Discover3Mana()
+    {
+        discover = cardpool.Discover3Mana;
+        //hide discover menu
+    }
+
+    public void ChooseDruid()
 	{
 		discover(Hero.Druid);
 		gameObject.SetActive(false);
