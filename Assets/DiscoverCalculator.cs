@@ -21,15 +21,17 @@ public class DiscoverCalculator : MonoBehaviour {
     void Start ()
     {
         text = GetComponent<Text>();
-	}
+        UpdatePercentage();
+
+    }
 	
-	void Update ()
+	/*void Update ()
     {
         CardDrawChance(neutrals, classCards, neutralTargets, classTargets);
 
-    }
+    }*/
 
-    void UpdatePercentage()
+    public void UpdatePercentage()
     {
         CardDrawChance(neutrals, classCards, neutralTargets, classTargets);
     }

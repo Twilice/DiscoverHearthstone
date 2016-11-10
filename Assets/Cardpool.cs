@@ -28,6 +28,8 @@ public class Cardpool : MonoBehaviour {
 
     List<Card> PoolOfCards = new List<Card>();
 
+    public bool standard = true;
+
     private static DiscoverCalculator _calculator;
     private static DiscoverCalculator calculator
     {
@@ -106,7 +108,7 @@ public class Cardpool : MonoBehaviour {
         ResetCardPoolStatus();
         foreach (Card card in CardList(hero))
         {
-
+            if((standard && card.set == Set.Wild) == false)
             if (card.type == Type.Spell)
             {
                 classCards++;
@@ -116,6 +118,7 @@ public class Cardpool : MonoBehaviour {
         }
         foreach (Card card in CardList(Hero.Neutral))
         {
+            if((standard && card.set == Set.Wild) == false)
             if (card.type == Type.Spell)
             {
                 neutrals++;
@@ -128,8 +131,9 @@ public class Cardpool : MonoBehaviour {
         calculator.neutralTargets = 0;
         calculator.classCards = classCards;
         calculator.classTargets = 0;
+        calculator.UpdatePercentage();
 
-		PoolOfCards.Sort (new CardSorter());
+        PoolOfCards.Sort (new CardSorter());
 
 		SetupCardPositions();
     }
@@ -139,6 +143,7 @@ public class Cardpool : MonoBehaviour {
         ResetCardPoolStatus();
         foreach (Card card in CardList(hero))
         {
+            if((standard && card.set == Set.Wild) == false)
             if (card.manaCost == 3)
             {
                 classCards++;
@@ -148,6 +153,7 @@ public class Cardpool : MonoBehaviour {
         }
         foreach (Card card in CardList(Hero.Neutral))
         {
+            if((standard && card.set == Set.Wild) == false)
             if (card.manaCost == 3)
             {
                 neutrals++;
@@ -160,11 +166,228 @@ public class Cardpool : MonoBehaviour {
         calculator.neutralTargets = 0;
         calculator.classCards = classCards;
         calculator.classTargets = 0;
+        calculator.UpdatePercentage();
 
         PoolOfCards.Sort(new CardSorter());
 
         SetupCardPositions();
     }
+
+    public void DiscoverDeathrattle(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            foreach (Ability a in card.abilities)
+            {
+                if (a == Ability.Deathrattle)
+                {
+                    classCards++;
+                    PoolOfCards.Add(card);
+                    card.transform.SetParent(this.transform, false);
+                }
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            foreach (Ability a in card.abilities)
+            {
+                if (a == Ability.Deathrattle)
+                {
+                    neutrals++;
+                    PoolOfCards.Add(card);
+                    card.transform.SetParent(this.transform, false);
+                }
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
+    public void DiscoverMinion(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.type == Type.Minion)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.type == Type.Minion)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
+    public void Discover1Mana(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.manaCost == 1)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.manaCost == 1)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
+    public void DiscoverDragon(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Dragon)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Dragon)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
+    public void DiscoverBeast(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Beast)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Beast)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+    public void DiscoverMech(Hero hero)
+    {
+        ResetCardPoolStatus();
+        foreach (Card card in CardList(hero))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Mech)
+            {
+                classCards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if((standard && card.set == Set.Wild) == false)
+            if (card.tribe == Tribe.Mech)
+            {
+                neutrals++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
+
+        calculator.neutrals = neutrals;
+        calculator.neutralTargets = 0;
+        calculator.classCards = classCards;
+        calculator.classTargets = 0;
+        calculator.UpdatePercentage();
+
+        PoolOfCards.Sort(new CardSorter());
+
+        SetupCardPositions();
+    }
+
 
     //sort by mana, keeping nameorder (non destructive) and neutral weighting more than class
     public class CardSorter : IComparer<Card>

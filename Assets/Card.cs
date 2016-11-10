@@ -21,7 +21,7 @@ public enum Tribe
 
 public enum Ability
 {
-    Deathrattle
+    Deathrattle, Taunt
 }
 
 public enum Set
@@ -143,16 +143,28 @@ public class Card : MonoBehaviour {
     private void AddAsTarget()
     {
         if (hero == Hero.Neutral)
+        {
             calculator.neutralTargets++;
+            calculator.UpdatePercentage();
+        }
         else
+        {
             calculator.classTargets++;
+            calculator.UpdatePercentage();
+        }
     }
 
     private void RemoveAsTarget()
     {
         if (hero == Hero.Neutral)
+        {
             calculator.neutralTargets--;
+            calculator.UpdatePercentage();
+        }
         else
+        {
             calculator.classTargets--;
+            calculator.UpdatePercentage();
+        }
     }
 }

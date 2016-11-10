@@ -44,7 +44,6 @@ public class DiscoverCard : MonoBehaviour {
         
         foreach(DiscoverCard dc in discoverList)
         {
-            Debug.Log(dc.name);
             dc.active = false;
             dc.img.color = Color.gray;
         }

@@ -40,6 +40,38 @@ public class DiscoverMenu : MonoBehaviour {
         //hide discover menu
     }
 
+    public void Discover1Mana()
+    {
+        discover = cardpool.Discover1Mana;
+        //hide discover menu
+    }
+    public void DiscoverDeathrattle()
+    {
+        discover = cardpool.DiscoverDeathrattle;
+        //hide discover menu
+    }
+
+    public void DiscoverMinion()
+    {
+        discover = cardpool.DiscoverMinion;
+        //hide discover menu
+    }
+
+    public void DiscoverDragon()
+    {
+        discover = cardpool.DiscoverDragon;
+        //hide discover menu
+    }
+    public void DiscoverBeast()
+    {
+        discover = cardpool.DiscoverBeast;
+        //hide discover menu
+    }
+    public void DiscoverMech()
+    {
+        discover = cardpool.DiscoverMech;
+        //hide discover menu
+    }
     public void ChooseDruid()
 	{
 		discover(Hero.Druid);
