@@ -21,7 +21,12 @@ public enum Tribe
 
 public enum Ability
 {
-    Deathrattle, Taunt
+    Deathrattle, Taunt, Overload
+}
+
+public enum TriClass
+{
+    No, Kabal, Goons, Lotus
 }
 
 public enum Set
@@ -39,6 +44,7 @@ public class Card : MonoBehaviour {
     public Tribe tribe = 0;
     public int manaCost = 3;
     public List<Ability> abilities = new List<Ability>();
+    public TriClass clan = TriClass.No;
 
     [HideInInspector]
 	public Transform originalParent;
@@ -140,6 +146,8 @@ public class Card : MonoBehaviour {
         img.color = Color.gray;
     }
 
+    //these will need custom functions for discover class cards
+
     private void AddAsTarget()
     {
         if (hero == Hero.Neutral)
@@ -150,6 +158,7 @@ public class Card : MonoBehaviour {
         else
         {
             calculator.classTargets++;
+            calculator.ClassTargetsSpecial(hero, 1);
             calculator.UpdatePercentage();
         }
     }
@@ -164,7 +173,27 @@ public class Card : MonoBehaviour {
         else
         {
             calculator.classTargets--;
+            calculator.ClassTargetsSpecial(hero, -1);
             calculator.UpdatePercentage();
         }
+    }
+
+    public bool usableByClass(Hero hero)
+    {
+        if (clan == TriClass.No)
+            return true;
+        else if (clan == TriClass.Goons && (hero == Hero.Hunter || hero == Hero.Paladin || hero == Hero.Warrior))
+        {
+            return true;
+        }
+        else if (clan == TriClass.Kabal && (hero == Hero.Mage || hero == Hero.Priest || hero == Hero.Warlock))
+        {
+            return true;
+        }
+        else if (clan == TriClass.Lotus && (hero == Hero.Druid || hero == Hero.Rogue || hero == Hero.Shaman))
+        {
+            return true;
+        }
+        return false;
     }
 }

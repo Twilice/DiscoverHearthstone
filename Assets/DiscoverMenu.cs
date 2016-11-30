@@ -5,7 +5,6 @@ using System;
 public class DiscoverMenu : MonoBehaviour {
 
 	private Cardpool cardpool;
-	private Hero hero;
 
 	private Action<Hero> discover;
 
@@ -50,7 +49,17 @@ public class DiscoverMenu : MonoBehaviour {
         discover = cardpool.DiscoverDeathrattle;
         //hide discover menu
     }
+    public void DiscoverTaunt()
+    {
+        discover = cardpool.DiscoverTaunt;
+        //hide discover menu
+    }
 
+    public void DiscoverOverload()
+    {
+        discover = cardpool.DiscoverOverload;
+        //hide discover menu
+    }
     public void DiscoverMinion()
     {
         discover = cardpool.DiscoverMinion;
@@ -72,6 +81,22 @@ public class DiscoverMenu : MonoBehaviour {
         discover = cardpool.DiscoverMech;
         //hide discover menu
     }
+
+    public void DiscoverKabal()
+    {
+        discover = cardpool.DiscoverKabal;
+    }
+
+    public void DiscoverGoons()
+    {
+        discover = cardpool.DiscoverGoons;
+    }
+
+    public void DiscoverLotus()
+    {
+        discover = cardpool.DiscoverLotus;
+    }
+
     public void ChooseDruid()
 	{
 		discover(Hero.Druid);

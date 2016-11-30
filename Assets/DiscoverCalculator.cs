@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class DiscoverCalculator : MonoBehaviour {
 
@@ -18,35 +19,36 @@ public class DiscoverCalculator : MonoBehaviour {
 
     private Text text;
 
+    public Action UpdatePercentage;
+
+
     void Start ()
     {
         text = GetComponent<Text>();
+        UpdatePercentage = UpdatePercentageNormal;
         UpdatePercentage();
 
     }
-	
-	/*void Update ()
-    {
-        CardDrawChance(neutrals, classCards, neutralTargets, classTargets);
 
-    }*/
-
-    public void UpdatePercentage()
+    public void UpdatePercentageNormal()
     {
         CardDrawChance(neutrals, classCards, neutralTargets, classTargets);
     }
 
-	[Range(0,10)]
+
+    [Range(0,10)]
 	public int RoundDecimals = 1;
-    void CardDrawChance(float neutrals, float classCards, float neutralTargets, float classTargets)
+    private void CardDrawChance(float neutrals, float classCards, float neutralTargets, float classTargets)
     {
+        //add extra cards to calculation based of weight bonus
 		float DrawChance = 1 - CardDrawChance_inner (neutralBonus * neutrals, classBonus * classCards, neutralBonus * neutralTargets, classBonus * classTargets, cardsDrawn);
 
 		text.text =  (Mathf.Round(DrawChance * (100 * Mathf.Pow(10,RoundDecimals))) / (1* Mathf.Pow(10,RoundDecimals))).ToString() + "%";
     }
 
-    float CardDrawChance_inner(float neutrals, float classCards, float neutralTargets, float classTargets, float draws)
+    private float CardDrawChance_inner(float neutrals, float classCards, float neutralTargets, float classTargets, float draws)
     {
+        //recursively draw cards until no more cards is to be drawn
         if (draws == 0)
             return 1;
         else if (classTargets > classCards)
@@ -56,10 +58,49 @@ public class DiscoverCalculator : MonoBehaviour {
         else if (classTargets + neutralTargets >= neutrals + classCards)
             return 0;
         else
+            // calculate 2 seperate instances and the odds of them happening, 1 for drawing neutral- and 1 for drawing classcard
             return (classCards - classTargets) / (neutrals + classCards) * CardDrawChance_inner(neutrals, classCards - classBonus, neutralTargets, classTargets, draws - 1) +
             (neutrals - neutralTargets) / (neutrals + classCards) * CardDrawChance_inner(neutrals - neutralBonus, classCards, neutralTargets, classTargets, draws - 1);
     }
 
+    public float class1Cards = 0;
+    public float class1Targets = 0;
+    public float class2Cards = 0;
+    public float class2Targets = 0;
+    public float class3Cards = 0;
+    public float class3Targets = 0;
+
+    public void UpdatePercentageTriClass()
+    {
+        CardDrawChanceSpecial(class1Cards, class1Targets, class2Cards, class2Targets, class3Cards, class3Targets);
+    }
+
+
+    private void CardDrawChanceSpecial(float class1Cards, float class1Targets, float class2Cards, float class2Targets, float class3Cards, float class3Targets)
+    {
+        //calculate odds of not drawing any of the cards, then invert the odds.
+        float DrawChance = 1 - ((class1Cards - class1Targets) / class1Cards * (class2Cards - class2Targets) / class2Cards * (class3Cards - class3Targets) / class3Cards);
+
+        text.text = (Mathf.Round(DrawChance * (100 * Mathf.Pow(10, RoundDecimals))) / (1 * Mathf.Pow(10, RoundDecimals))).ToString() + "%";
+    }
+
+    public void ClassTargetsSpecial(Hero hero, float val)
+    {
+        if (hero == Hero.Druid || hero == Hero.Hunter || hero == Hero.Mage)
+        {
+            class1Targets += val;
+        }
+        else if (hero == Hero.Rogue || hero == Hero.Paladin || hero == Hero.Priest)
+        {
+            class2Targets += val;
+        }
+        else if (hero == Hero.Shaman || hero == Hero.Warrior || hero == Hero.Warlock)
+        {
+            class3Targets += val;
+        }
+        else
+            Debug.LogError("To much funnel cakes");
+    }
 }
 
 /*

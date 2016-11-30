@@ -3,8 +3,9 @@ using System.Collections;
 
 public class Button_MoveObject : MonoBehaviour {
 
-    public Transform target;
+    public RectTransform target;
     public Vector2 velocity;
+    public Vector2 acceleration;
 
     private bool buttonPressed;
 	void Start () {
@@ -14,17 +15,26 @@ public class Button_MoveObject : MonoBehaviour {
 	void Update () {
         if (buttonPressed)
         {
-            target.position += new Vector3(velocity.x, velocity.y, 0) * Time.deltaTime;
+            velocity += acceleration * Time.deltaTime;
+            target.anchoredPosition += velocity * Time.deltaTime;
         }
 	}
 
     public void PointerDown()
     {
-        buttonPressed = true;
+        if (buttonPressed == false)
+        {
+            buttonPressed = true;
+            velocity = acceleration * 2;
+        }
     }
 
     public void PointerUp()
     {
-        buttonPressed = false;
+        if (buttonPressed == true)
+        {
+            buttonPressed = false;
+            velocity = Vector2.zero;
+        }
     }
 }
