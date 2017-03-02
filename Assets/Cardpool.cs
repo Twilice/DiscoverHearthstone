@@ -499,6 +499,18 @@ public class Cardpool : MonoBehaviour {
         int class2Cards = 0;
         int class3Cards = 0;
 
+        foreach(Card card in CardList(Hero.Neutral))
+        {
+            if(card.clan == TriClass.Kabal)
+            if ((standard && card.set == Set.Wild) == false)
+            {
+                class1Cards++;
+                class2Cards++;
+                class3Cards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
         foreach (Card card in CardList(Hero.Mage))
         {
             if ((standard && card.set == Set.Wild) == false)
@@ -536,7 +548,7 @@ public class Cardpool : MonoBehaviour {
         calculator.UpdatePercentage = calculator.UpdatePercentageTriClass;
         calculator.UpdatePercentage();
 
-        PoolOfCards.Sort(cardSorter);
+        PoolOfCards.Sort(cardSorterTriClass);
 
         SetupCardPositions();
     }
@@ -548,6 +560,18 @@ public class Cardpool : MonoBehaviour {
         int class2Cards = 0;
         int class3Cards = 0;
 
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if(card.clan == TriClass.Goons)
+            if ((standard && card.set == Set.Wild) == false)
+            {
+                class1Cards++;
+                class2Cards++;
+                class3Cards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
         foreach (Card card in CardList(Hero.Hunter))
         {
             if ((standard && card.set == Set.Wild) == false)
@@ -585,7 +609,7 @@ public class Cardpool : MonoBehaviour {
         calculator.UpdatePercentage = calculator.UpdatePercentageTriClass;
         calculator.UpdatePercentage();
 
-        PoolOfCards.Sort(cardSorter);
+        PoolOfCards.Sort(cardSorterTriClass);
 
         SetupCardPositions();
     }
@@ -597,6 +621,18 @@ public class Cardpool : MonoBehaviour {
         int class2Cards = 0;
         int class3Cards = 0;
 
+        foreach (Card card in CardList(Hero.Neutral))
+        {
+            if(card.clan == TriClass.Lotus)
+            if ((standard && card.set == Set.Wild) == false)
+            {
+                class1Cards++;
+                class2Cards++;
+                class3Cards++;
+                PoolOfCards.Add(card);
+                card.transform.SetParent(this.transform, false);
+            }
+        }
         foreach (Card card in CardList(Hero.Druid))
         {
             if ((standard && card.set == Set.Wild) == false)
@@ -634,7 +670,7 @@ public class Cardpool : MonoBehaviour {
         calculator.UpdatePercentage = calculator.UpdatePercentageTriClass;
         calculator.UpdatePercentage();
 
-        PoolOfCards.Sort(cardSorter);
+        PoolOfCards.Sort(cardSorterTriClass);
 
         SetupCardPositions();
     }
@@ -652,9 +688,22 @@ public class Cardpool : MonoBehaviour {
 				return comp;
 		}
 	}
+    public CardSorterTriClass cardSorterTriClass = new CardSorterTriClass();
+    //sort by mana, keeping nameorder (non destructive) and neutral weighting more than class
+    public class CardSorterTriClass : IComparer<Card>
+    {
+        public int Compare(Card x, Card y)
+        {
 
+            int comp = x.hero.CompareTo(y.hero);
+            if (comp == 0)
+                return (x.manaCost.CompareTo(y.manaCost));
+            else
+                return comp;
+        }
+    }
 
-	void SetupCardPositions()
+    void SetupCardPositions()
 	{
         int width = 280;
 		int height = 380;

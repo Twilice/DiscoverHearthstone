@@ -153,6 +153,26 @@ public class Card : MonoBehaviour {
         if (hero == Hero.Neutral)
         {
             calculator.neutralTargets++;
+            switch(clan)
+            {
+                case TriClass.No:
+                    break;
+                case TriClass.Goons:
+                    calculator.ClassTargetsSpecial(Hero.Hunter, 1);
+                    calculator.ClassTargetsSpecial(Hero.Paladin, 1);
+                    calculator.ClassTargetsSpecial(Hero.Warrior, 1);
+                    break;
+                case TriClass.Kabal:
+                    calculator.ClassTargetsSpecial(Hero.Mage, 1);
+                    calculator.ClassTargetsSpecial(Hero.Priest, 1);
+                    calculator.ClassTargetsSpecial(Hero.Warlock, 1);
+                    break;
+                case TriClass.Lotus:
+                    calculator.ClassTargetsSpecial(Hero.Druid, 1);
+                    calculator.ClassTargetsSpecial(Hero.Rogue, 1);
+                    calculator.ClassTargetsSpecial(Hero.Shaman, 1);
+                    break;
+            }
             calculator.UpdatePercentage();
         }
         else
@@ -168,6 +188,26 @@ public class Card : MonoBehaviour {
         if (hero == Hero.Neutral)
         {
             calculator.neutralTargets--;
+            switch (clan)
+            {
+                case TriClass.No:
+                    break;
+                case TriClass.Goons:
+                    calculator.ClassTargetsSpecial(Hero.Hunter, -1);
+                    calculator.ClassTargetsSpecial(Hero.Paladin, -1);
+                    calculator.ClassTargetsSpecial(Hero.Warrior, -1);
+                    break;
+                case TriClass.Kabal:
+                    calculator.ClassTargetsSpecial(Hero.Mage, -1);
+                    calculator.ClassTargetsSpecial(Hero.Priest, -1);
+                    calculator.ClassTargetsSpecial(Hero.Warlock, -1);
+                    break;
+                case TriClass.Lotus:
+                    calculator.ClassTargetsSpecial(Hero.Druid, -1);
+                    calculator.ClassTargetsSpecial(Hero.Rogue, -1);
+                    calculator.ClassTargetsSpecial(Hero.Shaman, -1);
+                    break;
+            }
             calculator.UpdatePercentage();
         }
         else
